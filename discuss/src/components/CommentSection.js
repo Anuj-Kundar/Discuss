@@ -1,40 +1,53 @@
 import React, { useState } from 'react';
+import Comment from './Comment';
+import './CommentSection.css';
 
-class CommentSection extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            comments: [], // array to store the comments
-        };
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+const CommentSection = () => {
+    const [comments, setComments] = useState([]);
 
-    handleSubmit(event) {
+    const handleSubmit = (event) => {
         event.preventDefault();
-        const { comments } = this.state;
         // get the input and textarea elements from the form
         const nameInput = event.target.elements.name;
         const commentTextarea = event.target.elements.comment;
+    
+        // check if the name and comment fields are not empty
+        if (nameInput.value.trim() === "" || commentTextarea.value.trim() === "") {
+            alert("Name and comment fields cannot be empty!");
+            return;
+        }
+    
         // add a new comment to the comments array
-        comments.push({
+        const newComment = {
             name: nameInput.value,
             comment: commentTextarea.value,
-        });
-        // update the component's state
-        this.setState({ comments });
+        }
+        setComments([...comments, newComment]);
+        // clear the form fields
+        nameInput.value = '';
+        commentTextarea.value = '';
     }
+    
 
-    render() {
-        return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <input type="text" name="name" placeholder="Your name" />
-                    <textarea name="comment" placeholder="Leave a comment"></textarea>
-                    <input type="submit" value="Post Comment" />
-                </form>
+    return (
+        <div className="comment-section">
+            <form onSubmit={handleSubmit} className="form-style">
+                <div className="form-input-box">
+                    <input type="text" name="name" placeholder="Your name" className="form-control name-input" />
+                    <textarea name="comment" placeholder="Leave a comment" className="form-control comment-textarea"></textarea>
+                    <input type="submit" value="Post Comment" className="btn btn-primary post-comment-button" />
+                </div>
+            </form>
+            <div className="comments-style">
+                {comments.map((comment, index) => (
+                    <Comment
+                        key={index}
+                        author={comment.name}
+                        text={comment.comment}
+                    />
+                ))}
             </div>
-        );
-    }
+        </div>
+    );
 }
 export default CommentSection;
-

@@ -1,0 +1,16 @@
+.form-style {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .form-input-box {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .name-input, .comment-textarea, .post-comment-button {
+    width: 30%;
+  }
+  .comments-style {
+    margin-top: 20px;
+  }
+  
